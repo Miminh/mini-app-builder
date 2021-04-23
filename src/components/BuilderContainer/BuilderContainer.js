@@ -55,7 +55,9 @@ const BuilderContainer = () => {
   };
 
   const deleteElement = (id) => {
-    setElements((ele) => ele.filter((e, idx) => idx !== id));
+    const updatedElements = elements.filter((e, idx) => idx !== id);
+    localStorage.setItem("elements", JSON.stringify(updatedElements));
+    setElements(updatedElements);
   };
 
   useEffect(() => {

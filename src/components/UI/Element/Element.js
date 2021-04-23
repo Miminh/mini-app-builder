@@ -32,7 +32,7 @@ const Element = ({
   useEffect(() => {
     const localElements = JSON.parse(localStorage.getItem("elements"));
     localElements[id].data.X = current.currentX;
-    localElements[id].data.y = current.currentY;
+    localElements[id].data.Y = current.currentY;
     localStorage.setItem("elements", JSON.stringify(localElements));
   }, [current, id]);
 
