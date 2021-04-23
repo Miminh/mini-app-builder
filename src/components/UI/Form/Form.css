@@ -1,0 +1,25 @@
+.Form {
+  min-width: 30vw;
+  min-height: 80vh;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.Form_Title {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-bottom: 1px solid rgba(235, 228, 228, 0.952);
+}
+
+.Form_Input_Wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 0.8rem 1rem;
+  font-size: 0.8rem;
+  font-weight: lighter;
+}
+
+.Form_Button {
+  margin-left: 1rem;
+}

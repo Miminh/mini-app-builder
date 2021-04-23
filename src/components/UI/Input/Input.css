@@ -1,0 +1,8 @@
+.Input > input {
+  min-width: 3rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid rgba(235, 228, 228, 0.952);
+  color: rgba(48, 47, 47, 0.945);
+  z-index: 100;
+}
