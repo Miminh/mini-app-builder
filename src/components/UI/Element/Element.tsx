@@ -3,11 +3,30 @@ import Button from "../Button/Button";
 import Input from "../Input/Input";
 import Label from "../Label/Label";
 
-const setStyle = (fontSize, fontWeight) => {
+const setStyle = (fontS: string, fontW: string) => {
   return {
-    "font-size": `${fontSize ? fontSize : "16"}px`,
-    "font-weight": `${fontWeight ? fontWeight : "normal"}`,
+    fontSize: `${fontS ? fontS : "16"}px`,
+    fontWeight: `${fontW ? fontW : "normal"}`,
   };
+};
+
+type ElementProps = {
+  id: string | number;
+  type: string;
+  data: {
+    text: string;
+    fontSize: string;
+    fontWeight: string;
+    X: number;
+    Y: number;
+  };
+  classes: string;
+  openElementForm: (type: string, X: number, Y: number, id: string | number) => void;
+  current: {
+    currentX: number;
+    currentY: number;
+  };
+  deleteElement: (id: string | number) => void;
 };
 
 const Element = ({
@@ -18,19 +37,19 @@ const Element = ({
   openElementForm,
   current,
   deleteElement,
-}) => {
-  let inputVal = useRef();
+}: React.PropsWithChildren<ElementProps>) => {
+  let inputVal = useRef<HTMLInputElement>(null);
   const { text, fontSize, fontWeight } = data;
   let { X, Y } = data;
   X = current ? current.currentX : X;
   Y = current ? current.currentY : Y;
-  const handleKeyDown = (event) => {
+  const handleKeyDown : React.KeyboardEventHandler = (event) => {
     if (event.key === "Enter") openElementForm(type, X, Y, id);
     if (event.key === "Delete") deleteElement(id);
   };
 
   useEffect(() => {
-    const localElements = JSON.parse(localStorage.getItem("elements"));
+    const localElements = JSON.parse(localStorage.getItem("elements") || "");
     localElements[id].data.X = current.currentX;
     localElements[id].data.Y = current.currentY;
     localStorage.setItem("elements", JSON.stringify(localElements));

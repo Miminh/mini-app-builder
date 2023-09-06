@@ -7,24 +7,30 @@ import Modal from "../UI/Modal/Modal";
 import "./BuilderContainer.css";
 
 const BuilderContainer = () => {
-  const [elements, setElements] = useState([]);
-  const [position, setPosition] = useState({});
+  const [elements, setElements] = useState<any[]>([]);
+  const [position, setPosition] = useState<{X: number,  Y : number}>({X : 0, Y : 0});
   const [openModal, setOpenModal] = useState(false);
   const [type, setType] = useState("");
-  const [currId, setCurrId] = useState(null);
-  const handleDragOver = (event) => {
-    event.preventDefault();
+  const [currId, setCurrId] = useState<number | string>("");
+  const handleDragOver = (
+    event: React.DragEvent<HTMLDivElement> | undefined
+  ) => {
+    !!event && event.preventDefault();
   };
 
-  const handleDrop = (event) => {
-    if (event.target.className !== "BuilderContainer") return;
+  const handleDrop: React.DragEventHandler<HTMLDivElement> = (event) => {
+    if (
+      !!event &&
+      (event.target as HTMLDivElement).className !== "BuilderContainer"
+    )
+      return;
     setOpenModal(true);
     setPosition({ X: event.clientX, Y: event.clientY });
-    setType(document.querySelector(".dragging").id);
+    setType(document.querySelector(".dragging")?.id || "");
   };
 
-  const createElement = (type, data, id) => {
-    let localElements = JSON.parse(localStorage.getItem("elements"));
+  const createElement = (type: string, data: object, id:string| number) => {
+    let localElements = JSON.parse(localStorage.getItem("elements") || "");
 
     if (id === null) {
       if (localElements === null) localElements = [{ type, data }];
@@ -36,25 +42,30 @@ const BuilderContainer = () => {
     localElements[id] = { type, data };
     localStorage.setItem("elements", JSON.stringify(localElements));
     setElements((ele) => {
-      ele[id] = { type, data };
+      ele[id as number] = { type, data };
       return ele;
     });
-    setCurrId(null);
+    setCurrId("");
   };
 
   const closeModal = () => {
     setOpenModal(false);
   };
 
-  const openElementForm = (type, x, y, id) => {
+  const openElementForm = (
+    type: string,
+    x: number,
+    y: number,
+    id: string | number
+  ) => {
     console.log(y);
     setOpenModal(true);
     setPosition({ X: x, Y: y });
-    setCurrId(id);
+    setCurrId(id as number);
     setType(type);
   };
 
-  const deleteElement = (id) => {
+  const deleteElement = (id: string | number) => {
     const updatedElements = elements.filter((e, idx) => idx !== id);
     localStorage.setItem("elements", JSON.stringify(updatedElements));
     setElements(updatedElements);
@@ -63,7 +74,7 @@ const BuilderContainer = () => {
   useEffect(() => {
     let loadedElements = null;
     const getLocalElements = async () => {
-      loadedElements = await JSON.parse(localStorage.getItem("elements"));
+      loadedElements = await JSON.parse(localStorage.getItem("elements") || "");
       return loadedElements;
     };
 
@@ -95,6 +106,7 @@ const BuilderContainer = () => {
               classes={"element"}
               openElementForm={openElementForm}
               deleteElement={deleteElement}
+              current={{ currentX: element.data.X, currentY: element.data.Y }}
             />
           </Draggable>
         ))}

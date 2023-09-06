@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {  ReactElement, useEffect, useState } from "react";
 
 import "./Draggable.css";
 
-const Draggable = (props) => {
+type DraggableProps = {
+  x : number,
+  y : number,
+}
+
+const Draggable = (props : React.PropsWithChildren<DraggableProps>) => {
   let { x, y } = props;
   const [current, setCurrent] = useState({
     currentX: x,
@@ -10,7 +15,7 @@ const Draggable = (props) => {
   });
   const [offset, setOffset] = useState({ offsetX: 0, offsetY: 0 });
 
-  const handleMouseDown = (event) => {
+  const handleMouseDown : React.MouseEventHandler<HTMLDivElement> = (event) => {
     // if (event.clientX >= window.innerWidth - 0.3 * window.innerWidth) {
     //   setOffset(original.current);
     // }
@@ -32,14 +37,14 @@ const Draggable = (props) => {
   //   setMove(false);
   // };
 
-  const handleDrag = (event) => {
+  const handleDrag : React.DragEventHandler<HTMLDivElement> = (event) => {
     setCurrent({
       currentX: event.clientX + offset.offsetX,
       currentY: event.clientY + offset.offsetY,
     });
   };
 
-  const handleDrop = (event) => {
+  const handleDrop : React.DragEventHandler<HTMLDivElement>= (event) => {
     event.preventDefault();
   };
 
@@ -52,7 +57,7 @@ const Draggable = (props) => {
       onDrop={handleDrop}
       style={{ left: current.currentX + "px", top: current.currentY + "px" }}
     >
-      {React.cloneElement(props.children, { current, setCurrent })}
+      {React.cloneElement(props.children as ReactElement, { current, setCurrent })}
     </div>
   );
 };

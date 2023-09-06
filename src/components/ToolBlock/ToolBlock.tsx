@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { DragEvent, useState } from "react";
 
 import "./ToolBlock.css";
 
 const ToolBlock = () => {
   const [currName, setCurrName] = useState("");
 
-  const handleDragStart = (name) => {
+  const handleDragStart = (name : string) => {
     setCurrName(name);
     console.log("dragStarts");
   };
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd : React.DragEventHandler<HTMLDivElement> = (event) => {
     setCurrName("");
   };
 
@@ -18,9 +18,9 @@ const ToolBlock = () => {
     return null;
   };
 
-  const handleDrag = (event) => {
+  const handleDrag : React.EventHandler<DragEvent> = (event) => {
     const element = event.target;
-    event.dataTransfer.setDragImage(element, 0, 0);
+    event.dataTransfer.setDragImage(element as Element, 0, 0);
   };
 
   return (

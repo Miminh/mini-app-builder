@@ -4,25 +4,35 @@ import Input from "../Input/Input";
 
 import "./Form.css";
 
-const Form = (props) => {
+type FormProps ={
+  type : string,
+  id : string | number,
+  position : {
+    X : number,
+    Y : number,
+  },
+  createElement : (type : string, data : object, id : string | number) => void,
+  close : () => void,
+}
+
+const Form = (props : FormProps) => {
   const inputStyle = {
     width: "90%",
   };
-  let text = useRef();
-  let X = useRef();
-  let Y = useRef();
-  let fontSize = useRef();
-  let fontWeight = useRef();
+  let text = useRef<HTMLInputElement>(null);
+  let X = useRef<HTMLInputElement>(null);
+  let Y = useRef<HTMLInputElement>(null);
+  let fontSize = useRef<HTMLInputElement>(null);
+  let fontWeight = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit : React.FormEventHandler = (event) => {
     event.preventDefault();
-    console.log(text.current.value);
     const data = {
-      text: text.current.value,
-      X: X.current.value,
-      Y: Y.current.value,
-      fontSize: fontSize.current.value,
-      fontWeight: fontWeight.current.value,
+      text: text.current?.value,
+      X: X.current?.value,
+      Y: Y.current?.value,
+      fontSize: fontSize.current?.value,
+      fontWeight: fontWeight.current?.value,
     };
     props.createElement(props.type, data, props.id);
     props.close();
